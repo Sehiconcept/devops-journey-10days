@@ -6,3 +6,5 @@
 - Ansible
 - Docker
 - GitHub Actions
+- Python
+- Node.js
