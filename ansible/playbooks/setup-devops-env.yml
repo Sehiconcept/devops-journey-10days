@@ -1,0 +1,33 @@
+---
+- name: Set up user-space DevOps environment
+  hosts: localhost
+  become: false  # No sudo!
+
+  tasks:
+    - name: Ensure devops directories exist
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - "{{ ansible_env.HOME }}/devops"
+        - "{{ ansible_env.HOME }}/bin"
+        - "{{ ansible_env.HOME }}/logs"
+
+    - name: Deploy health check script
+      copy:
+        src: files/system-health-check.sh
+        dest: "{{ ansible_env.HOME }}/bin/system-health-check.sh"
+        mode: '0755'
+
+    - name: Ensure ~/bin is in PATH (update .bashrc)
+      lineinfile:
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        line: 'export PATH="{{ ansible_env.HOME }}/bin:$PATH"'
+        create: true
+      notify: Reload bashrc
+
+  handlers:
+    - name: Reload bashrc
+      shell: source ~/.bashrc
+      changed_when: false
