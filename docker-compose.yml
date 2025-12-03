@@ -1,0 +1,22 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  frontend:
+    build: ./app/frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./app/backend
+    environment:
+      - PORT=3000
+    expose:
+      - "3000"
+
+  redis:
+    image: redis:7-alpine
+    expose:
+      - "6379"

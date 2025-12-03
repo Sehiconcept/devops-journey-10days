@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DevOps Journey</title>
+</head>
+<body>
+  <h1>Hello from Frontend! 🌐</h1>
+  <p id="api-response">Loading...</p>
+  <script>
+    fetch('/api')
+      .then(res => res.text())
+      .then(data => document.getElementById('api-response').innerText = data);
+  </script>
+</body>
+</html>
